@@ -25,11 +25,32 @@ function populateChart(data) {
   let durations = data.map(({ totalDuration }) => totalDuration);
   let pounds = calculateTotalWeight(data);
   let exerciseNames = getExerciseNames(data);
+  console.log(exerciseNames)
 
-
-  
   const exercises = data.flatMap(workout => workout.exercises);
 
+  const filteredCardioNames = exerciseNames.map(exerciseName => {
+  
+    const filtered = exercises.filter(exercise => exercise.type === 'cardio' && exercise.name === exerciseName);
+
+    return [...new Set(filtered.flatMap(exercise => exercise.name))]
+
+})
+const filteredResistanceNames = exerciseNames.map(exerciseName => {
+  
+  const filtered = exercises.filter(exercise => exercise.type === 'resistance' && exercise.name === exerciseName);
+  console.log(filtered)
+  const map = filtered
+              .map(exercise => exercise.name)
+
+  console.log(map)
+  
+  return [...new Set(map)]
+  // 
+
+})
+
+  console.log(filteredResistanceNames)
   console.log({exercises});
 
   const exerciseDurations = exerciseNames.map(exerciseName => {
@@ -174,7 +195,7 @@ function populateChart(data) {
       labels: exerciseNames,
       datasets: [
         {
-          label: 'Exercises Performed',
+          label: 'Resistance Performed',
           backgroundColor: colors,
           data: pounds,
         },
@@ -183,7 +204,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: 'Exercises Performed',
+        text: 'Resistance Performed',
       },
     },
   });
