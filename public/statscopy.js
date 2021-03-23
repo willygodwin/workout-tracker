@@ -24,7 +24,44 @@ function generatePalette() {
 function populateChart(data) {
   let durations = data.map(({ totalDuration }) => totalDuration);
   let pounds = calculateTotalWeight(data);
-  let workouts = workoutNames(data);
+  let exerciseNames = getExerciseNames(data);
+  console.log(exerciseNames)
+
+  const exercises = data.flatMap(workout => workout.exercises);
+
+  const filteredCardioNames = exerciseNames.map(exerciseName => {
+  
+    const filtered = exercises.filter(exercise => exercise.type === 'cardio' && exercise.name === exerciseName);
+
+    return [...new Set(filtered.flatMap(exercise => exercise.name))]
+
+})
+const filteredResistanceNames = exerciseNames.map(exerciseName => {
+  
+  const filtered = exercises.filter(exercise => exercise.type === 'resistance' && exercise.name === exerciseName);
+  console.log(filtered)
+  const map = filtered
+              .map(exercise => exercise.name)
+
+  console.log(map)
+  
+  return [...new Set(map)]
+  // 
+
+})
+
+  console.log(filteredResistanceNames)
+  console.log({exercises});
+
+  const exerciseDurations = exerciseNames.map(exerciseName => {
+
+    const filtered = exercises.filter(exercise => exercise.type === 'cardio' && exercise.name === exerciseName);
+
+    return filtered.reduce((acc, next) => acc + next.duration, 0);
+
+  });
+  console.log({exerciseDurations});
+
   const colors = generatePalette();
 
   let line = document.querySelector('#canvas').getContext('2d');
@@ -135,19 +172,19 @@ function populateChart(data) {
   let pieChart = new Chart(pie, {
     type: 'pie',
     data: {
-      labels: workouts,
+      labels: exerciseNames,
       datasets: [
         {
-          label: 'Exercises Performed',
+          label: 'Cardio Performed',
           backgroundColor: colors,
-          data: durations,
+          data: exerciseDurations,
         },
       ],
     },
     options: {
       title: {
         display: true,
-        text: 'Exercises Performed',
+        text: 'Cardio Performed',
       },
     },
   });
@@ -155,10 +192,10 @@ function populateChart(data) {
   let donutChart = new Chart(pie2, {
     type: 'doughnut',
     data: {
-      labels: workouts,
+      labels: exerciseNames,
       datasets: [
         {
-          label: 'Exercises Performed',
+          label: 'Resistance Performed',
           backgroundColor: colors,
           data: pounds,
         },
@@ -167,7 +204,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: 'Exercises Performed',
+        text: 'Resistance Performed',
       },
     },
   });
@@ -191,17 +228,17 @@ function calculateTotalWeight(data) {
   return totals;
 }
 
-function workoutNames(data) {
-  let workouts = [];
+function getExerciseNames(data) {
+  let exerciseNames = [];
 
   data.forEach((workout) => {
     workout.exercises.forEach((exercise) => {
-      workouts.push(exercise.name);
+      exerciseNames.push(exercise.name);
     });
   });
 
   // return de-duplicated array with JavaScript `Set` object
-  return [...new Set(workouts)];
+  return [...new Set(exerciseNames)];
 }
 
 // get all workout data from back-end
