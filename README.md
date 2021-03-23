@@ -15,14 +15,11 @@
 Eat-Da-Burger application allows the user to add new burgers, delete burgers, devour burgers or throw them up (haha).  The application uses mysql for the data storage and has been deployed to heroku. 
 
 ## Installation Instructions
-Visit the deployed URL " https://eat-da-burger69.herokuapp.com/"
+Visit the deployed URL https://workout-tracker-will.herokuapp.com/
 
 
 ## Usage Information 
-Add burgers in the input box and the bottom, delete burgers with the 'X' and choose to devour or throw up yours burgers. 
-
-![Alt text](/app/public/img/home.JPG?raw=true "home") 
-
+You can add an exercise or complete an exercise on the landing page and review your statistic on the dashboard
 
 
 ## License
@@ -45,4 +42,4 @@ Email:
 willygodwin47@gmail.com
 
 ## Link to deployed URL 
-https://eat-da-burger69.herokuapp.com/
+https://workout-tracker-will.herokuapp.com/
